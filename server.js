@@ -1,16 +1,27 @@
 import express from "express";
 import path from "path";
-// import dotenv from 'dotenv';
-// import morgan from 'morgan';
+import dotenv from "dotenv";
+import morgan from "morgan";
 import rootRoutes from "./routes/root.js";
+import {
+	errorHandler,
+	notFound,
+} from "./middleware/errorMiddleware.js";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import corsOptions from "./config/allowedCorsOrigins.js";
 
 const app = express();
 
-// if (process.env.NODE_ENV === 'development') {
-//   app.use(morgan('dev'));
-// }
+if (process.env.NODE_ENV === "development") {
+	app.use(morgan("dev"));
+}
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
+
+app.use(cookieParser());
 
 const __dirname = path.resolve();
 
@@ -36,6 +47,10 @@ app.all("*", (req, res) => {
 		res.type("txt").send("404 Not Found");
 	}
 });
+
+//ERROR HANDLERS
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
