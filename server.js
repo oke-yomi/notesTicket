@@ -10,7 +10,10 @@ import {
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import corsOptions from "./config/allowedCorsOrigins.js";
+import connectDB from "./config/db.js";
 
+dotenv.config();
+connectDB();
 const app = express();
 
 if (process.env.NODE_ENV === "development") {
