@@ -2,7 +2,8 @@ import express from "express";
 import path from "path";
 import dotenv from "dotenv";
 import morgan from "morgan";
-import rootRoutes from "./routes/root.js";
+// import rootRoutes from "./routes/root.js";
+import { rootRoutes, userRoutes } from "./routes/index.js";
 import {
 	errorHandler,
 	notFound,
@@ -34,6 +35,7 @@ app.use(
 );
 
 app.use("/", rootRoutes);
+app.use("/users", userRoutes);
 
 app.all("*", (req, res) => {
 	res.status(404);

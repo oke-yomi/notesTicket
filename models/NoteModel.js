@@ -1,6 +1,8 @@
-import mongoose, { Mongoose } from "mongoose";
-import Inc from "mongoose-sequence";
-const AutoIncrement = Inc(Mongoose);
+import mongoose from "mongoose";
+// import AutoIncrementFactory from "mongoose-sequence";
+// const connection = "mongodb://localhost:5000";
+// const AutoIncrement =
+// 	AutoIncrementFactory(connection);
 
 const noteSchema = new mongoose.Schema(
 	{
@@ -27,11 +29,11 @@ const noteSchema = new mongoose.Schema(
 	}
 );
 
-noteSchema.plugin(AutoIncrement, {
-	inc_field: "ticket",
-	id: "ticketNums",
-	start_seq: 300,
-});
+// noteSchema.plugin(AutoIncrement, {
+// 	inc_field: "ticket",
+// 	id: "ticketNums",
+// 	start_seq: 300,
+// });
 
 const Note = mongoose.model("Note", noteSchema);
 export default Note;
