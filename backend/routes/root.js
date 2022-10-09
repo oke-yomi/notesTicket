@@ -7,7 +7,12 @@ const __dirname = path.resolve();
 
 router.get("^/$|/index(.html)?", (req, res) => {
 	res.sendFile(
-		path.join(__dirname, "views", "index.html")
+		path.join(
+			__dirname,
+			"backend",
+			"views",
+			"index.html"
+		)
 	);
 });
 

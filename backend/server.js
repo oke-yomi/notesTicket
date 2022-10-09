@@ -34,7 +34,9 @@ const __dirname = path.resolve();
 
 app.use(
 	"/",
-	express.static(path.join(__dirname, "public"))
+	express.static(
+		path.join(__dirname, "backend", "public")
+	)
 );
 
 app.use("/", rootRoutes);
@@ -45,7 +47,12 @@ app.all("*", (req, res) => {
 	res.status(404);
 	if (req.accepts("html")) {
 		res.sendFile(
-			path.join(__dirname, "views", "404.html")
+			path.join(
+				__dirname,
+				"backend",
+				"views",
+				"404.html"
+			)
 		);
 	} else if (req.accepts("json")) {
 		res.json({
