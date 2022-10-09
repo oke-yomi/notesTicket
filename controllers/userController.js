@@ -12,13 +12,17 @@ export const getAllUsers = asyncHandler(
 			.select("-password")
 			.lean();
 
-		if (!users) {
+		if (!users?.length) {
 			return res
 				.status(400)
 				.json({ message: "No users found" });
 		}
 
-		res.json(users);
+		res.json({
+			status: "success",
+			count: users.length,
+			users,
+		});
 	}
 );
 
@@ -107,8 +111,7 @@ export const updateUser = asyncHandler(
 		}
 
 		// check for duplicate
-		const duplicate = await user
-			.findOne({ username })
+		const duplicate = await User.findOne({ username })
 			.lean()
 			.exec();
 
@@ -124,7 +127,7 @@ export const updateUser = asyncHandler(
 
 		user.username = username;
 		user.roles = roles;
-		user.acyive = active;
+		user.active = active;
 
 		if (password) {
 			// hash password
@@ -153,11 +156,11 @@ export const deleteUser = asyncHandler(
 		}
 
 		// check if user has notes
-		const notes = await Note.findOne({ user: id })
+		const note = await Note.findOne({ user: id })
 			.lean()
 			.exec();
 
-		if (notes?.length) {
+		if (note) {
 			return res
 				.status(400)
 				.json({ message: "User has assigned notes" });
